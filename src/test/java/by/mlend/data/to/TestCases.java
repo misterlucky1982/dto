@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import by.mlend.data.util.Transfer;
 
-public class TOTestCases {
+public class TestCases {
 	
 	private ContractorTO getContractorTO(long id, String name){
 		ContractorTO to = new ContractorTO();

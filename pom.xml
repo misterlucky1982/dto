@@ -3,6 +3,8 @@
   <groupId>by.mlend</groupId>
   <artifactId>data-transfer-objects</artifactId>
   <version>1.0.1-SNAPSHOT</version>
+  <name>data-transfer-objects</name>
+  <url>http://maven.apache.org</url>
   
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +30,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<fork>true</fork>
+					<skipTests>false</skipTests>
 				</configuration>
 			</plugin>
 		</plugins>
