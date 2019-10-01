@@ -9,6 +9,7 @@ public class RemainderTO implements TransferObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private long id;
+	private long warehouse;
 	private String name;
 	private long color;
 	private long contractor;
@@ -108,13 +109,23 @@ public class RemainderTO implements TransferObject {
 		this.storage = storage;
 	}
 
-	@Override
-	public String toString() {
-		return "RemainderTO [id=" + id + ", name=" + name + ", color=" + color + ", contractor=" + contractor
-				+ ", storage=" + storage + ", dateOfArival=" + dateOfArival + ", dateOfLeaving=" + dateOfLeaving
-				+ ", height=" + height + ", width=" + width + ", thickness=" + thickness + ", remark=" + remark + "]";
+	/**
+	 * @return the warehouse
+	 */
+	public long getWarehouse() {
+		return warehouse;
 	}
 
+	/**
+	 * @param warehouse the warehouse to set
+	 */
+	public void setWarehouse(long warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -129,10 +140,14 @@ public class RemainderTO implements TransferObject {
 		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
 		result = prime * result + (int) (storage ^ (storage >>> 32));
 		result = prime * result + thickness;
+		result = prime * result + (int) (warehouse ^ (warehouse >>> 32));
 		result = prime * result + width;
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -174,11 +189,13 @@ public class RemainderTO implements TransferObject {
 			return false;
 		if (thickness != other.thickness)
 			return false;
+		if (warehouse != other.warehouse)
+			return false;
 		if (width != other.width)
 			return false;
 		return true;
 	}
-	
+
 	
 
 }

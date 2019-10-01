@@ -19,30 +19,26 @@ public class Transfer {
 
 	private final static int ID_LENGTH = 16;
 	private final static int ID_START_POSITION = 0;
+	private final static int WAREHOUSE_START = 16;
+	private final static int WAREHOUSE_LENGTH = 16;
 	private final static int COLOR_LENGTH = 16;
-	private final static int COLOR_START_POSITION = 16;
+	private final static int COLOR_START_POSITION = 32;
 	private static final int STORAGE_LENGTH = 16;
-	private static final int STORAGE_START_POSITION = 32;
+	private static final int STORAGE_START_POSITION = 48;
 	private static final int CONTRACTOR_LENGTH = 16;
-	private static final int CONTRACTOR_START_POSITION = 48;
+	private static final int CONTRACTOR_START_POSITION = 64;
 	private static final int HEIGHT_LENGTH = 3;
-	private static final int HEIGHT_START_POSITION = 64;
+	private static final int HEIGHT_START_POSITION = 80;
 	private static final int WIDTH_LENGTH = 3;
-	private static final int WIDTH_START_POSITION = 67;
+	private static final int WIDTH_START_POSITION = 83;
 	private static final int THICKNESS_LENGTH = 2;
-	private static final int THICKNESS_START_POSITION = 70;
+	private static final int THICKNESS_START_POSITION = 86;
 	private static final int DATE_LENGTH = 10;
-	private static final int ARRIVAL_START_POSITION = 72;
-	private static final int LEAVING_START_POSITION = 82;
+	private static final int ARRIVAL_START_POSITION = 88;
+	private static final int LEAVING_START_POSITION = 98;
 	private static final int NAME_ID_COUNT_LENGTH = 3;
-	private static final int NAME_ID_COUNT_START_POSITION = 92;
+	private static final int NAME_ID_COUNT_START_POSITION = 108;
 	private static final String EMPTY_DATE = "          ";
-
-	private final static int ID_LENGTH_ST_LOC = 16;
-	private final static int ID_START_POSITION_ST_LOC = 0;
-
-	private final static int ID_LENGTH_CONTR = 16;
-	private final static int ID_START_POSITION_CONTR = 0;
 
 	private static final String SPLITTER = "x";
 	private static final String REMAINDERLISTTO_SPLITTER = ":";
@@ -79,6 +75,9 @@ public class Transfer {
 		String temp = Long.toHexString(to.getId());
 		sb.append(temp);
 		sb.append(spaces(ID_LENGTH - temp.length()));
+		temp = Long.toHexString(to.getWarehouse());
+		sb.append(temp);
+		sb.append(spaces(WAREHOUSE_LENGTH-temp.length()));
 		temp = to.getColor() != 0 ? Long.toHexString(to.getColor()) : "";
 		sb.append(temp);
 		sb.append(spaces(COLOR_LENGTH - temp.length()));
@@ -117,6 +116,8 @@ public class Transfer {
 			RemainderTO to = new RemainderTO();
 			String temp = line.substring(ID_START_POSITION, ID_START_POSITION + ID_LENGTH);
 			to.setId(Long.decode("0x" + temp.trim()));
+			temp = line.substring(WAREHOUSE_START,WAREHOUSE_START+WAREHOUSE_LENGTH);
+			to.setWarehouse(Long.decode("0x"+temp.trim()));
 			temp = line.substring(COLOR_START_POSITION, COLOR_LENGTH + COLOR_START_POSITION);
 			if (!emptyString(temp))
 				to.setColor(Long.decode("0x" + temp.trim()));
@@ -180,10 +181,17 @@ public class Transfer {
 		}
 	}
 
+	private final static int ID_LENGTH_ST_LOC = 16;
+	private final static int ID_START_POSITION_ST_LOC = 0;
+	private final static int WAREHOUSE_START_ST = 16;
+	private final static int STORAGE_NAME_START = 32;
+	
 	private static String writeStorageLocationTO(StorageLocationTO to) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Long.toHexString(to.getId()));
 		sb.append(spaces(ID_LENGTH_ST_LOC - sb.length()));
+		sb.append(Long.toHexString(to.getWarehouse()));
+		sb.append(spaces(WAREHOUSE_LENGTH+ID_LENGTH_ST_LOC-sb.length()));
 		sb.append(byteString(to.getName()));
 		return sb.toString();
 	}
@@ -193,7 +201,9 @@ public class Transfer {
 			StorageLocationTO to = new StorageLocationTO();
 			String temp = line.substring(ID_START_POSITION_ST_LOC, ID_LENGTH_ST_LOC);
 			to.setId(Long.decode("0x" + temp.trim()));
-			temp = line.substring(ID_LENGTH_ST_LOC);
+			temp = line.substring(WAREHOUSE_START_ST, WAREHOUSE_START_ST+WAREHOUSE_LENGTH);
+			to.setWarehouse(Long.decode("0x"+temp.trim()));
+			temp = line.substring(STORAGE_NAME_START);
 			to.setName(fromByteString(temp));
 			return to;
 		} catch (RuntimeException e) {
@@ -232,16 +242,24 @@ public class Transfer {
 		StringBuilder sb = new StringBuilder();
 		sb.append(Long.toHexString(to.getId()));
 		sb.append(spaces(ID_LENGTH_CONTR - sb.length()));
+		sb.append(Long.toHexString(to.getWarehouse()));
+		sb.append(spaces(ID_LENGTH_CONTR + WAREHOUSE_LENGTH - sb.length()));
 		sb.append(byteString(to.getName()));
 		return sb.toString();
 	}
 
+	private final static int ID_LENGTH_CONTR = 16;
+	private final static int ID_START_POSITION_CONTR = 0;
+	private final static int WAREHOUSE_START_CONTR = 16;
+	
 	public static ContractorTO contractorTO(String line) throws TOException {
 		try {
 			ContractorTO to = new ContractorTO();
 			String temp = line.substring(ID_START_POSITION_CONTR, ID_LENGTH_CONTR);
 			to.setId(Long.decode("0x" + temp.trim()));
-			temp = line.substring(ID_LENGTH_CONTR);
+			temp = line.substring(WAREHOUSE_START_CONTR, WAREHOUSE_START_CONTR+WAREHOUSE_LENGTH);
+			to.setWarehouse(Long.decode("0x"+temp.trim()));
+			temp = line.substring(ID_LENGTH_CONTR+WAREHOUSE_LENGTH);
 			to.setName(fromByteString(temp));
 			return to;
 		} catch (RuntimeException e) {

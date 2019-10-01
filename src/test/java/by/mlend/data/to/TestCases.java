@@ -10,16 +10,18 @@ import by.mlend.data.util.Transfer;
 
 public class TestCases {
 	
-	private ContractorTO getContractorTO(long id, String name){
+	private ContractorTO getContractorTO(long id, long warehouse, String name){
 		ContractorTO to = new ContractorTO();
 		to.setId(id);
+		to.setWarehouse(warehouse);
 		to.setName(name);
 		return to;
 	}
 	
-	private StorageLocationTO getStorageLocationTO(long id, String name){
+	private StorageLocationTO getStorageLocationTO(long id, long warehouse, String name){
 		StorageLocationTO to = new StorageLocationTO();
 		to.setId(id);
+		to.setWarehouse(warehouse);
 		to.setName(name);
 		return to;
 	}
@@ -28,23 +30,25 @@ public class TestCases {
 	public void storegeLocationTOTransferTest() throws TOException{
 		String name = "name";
 		String anotherName = "anotherName";
-		StorageLocationTO to1 = getStorageLocationTO(123,name);
+		long id = 123;
+		long warehouse = 456;
+		StorageLocationTO to1 = getStorageLocationTO(id,warehouse,name);
 		String line = Transfer.toTranferString(to1);
 		assertEquals(to1,Transfer.storageLocationTO(line));
 		to1.setName(anotherName);
-		to1.setId(200);
+		to1.setId(id+1);
 		assertNotEquals(to1,Transfer.storageLocationTO(line));
 		line = Transfer.toTranferString(to1);
 		StorageLocationTO to = Transfer.storageLocationTO(line);
 		assertEquals(anotherName,to.getName());
-		assertTrue(to.getId()==200);
+		assertTrue(to.getId()==id+1);
 	}
 	
 	@Test
 	public void storageLocationListTOTransferTest() throws TOException{
-		StorageLocationTO to1 = this.getStorageLocationTO(1, "Name 1");
-		StorageLocationTO to2 = this.getStorageLocationTO(2, "Name 2");
-		StorageLocationTO to3 = this.getStorageLocationTO(3, "Name 3");
+		StorageLocationTO to1 = this.getStorageLocationTO(1,1,"Name 1");
+		StorageLocationTO to2 = this.getStorageLocationTO(2,1,"Name 2");
+		StorageLocationTO to3 = this.getStorageLocationTO(3,1,"Name 3");
 		StorageLocationListTO listTO = new StorageLocationListTO();
 		listTO.add(to1);
 		listTO.add(to2);
@@ -62,8 +66,9 @@ public class TestCases {
 	public void contractorTOTransferTest() throws TOException{
 		String name = "Name";
 		String anotherName = "anotherName";
-		long id1 = 2;
-		ContractorTO to1 = getContractorTO(id1,name);
+		long id1 = 244;
+		long warehouse = 7;
+		ContractorTO to1 = getContractorTO(id1,warehouse,name);
 		String line = Transfer.toTranferString(to1);
 		ContractorTO to2 = Transfer.contractorTO(line);
 		assertEquals(to1,to2);
@@ -79,9 +84,9 @@ public class TestCases {
 		long id1 = 1;
 		long id2 = 2;
 		long id3 = 3;
-		ContractorTO to1 = getContractorTO(id1,name1);
-		ContractorTO to2 = getContractorTO(id2,name2);
-		ContractorTO to3 = getContractorTO(id3,name3);
+		ContractorTO to1 = getContractorTO(id1,1,name1);
+		ContractorTO to2 = getContractorTO(id2,1,name2);
+		ContractorTO to3 = getContractorTO(id3,1,name3);
 		ContractorListTO listTO1 = new ContractorListTO();
 		listTO1.add(to1);
 		listTO1.add(to2);
@@ -98,6 +103,7 @@ public class TestCases {
 		long color = 1;
 		long contractor = 2;
 		long storage = 3;
+		long warehouse = 4;
 		int height = 2800;
 		int width = 1000;
 		int thickness = 18;
@@ -109,6 +115,7 @@ public class TestCases {
 		to.setColor(color);
 		to.setContractor(contractor);
 		to.setStorage(storage);
+		to.setWarehouse(warehouse);
 		to.setDateOfArival(arr);
 		to.setDateOfLeaving(leave);
 		to.setHeight(height);

@@ -8,7 +8,7 @@ public class StorageLocationTO implements TransferObject {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
-
+	private long warehouse;
 	private String name;
 
 	public long getId() {
@@ -32,15 +32,36 @@ public class StorageLocationTO implements TransferObject {
 		return "StorageLocationTO [id=" + id + ", name=" + name + "]";
 	}
 
+	/**
+	 * @return the warehouse
+	 */
+	public long getWarehouse() {
+		return warehouse;
+	}
+
+	/**
+	 * @param warehouse the warehouse to set
+	 */
+	public void setWarehouse(long warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + (int) (warehouse ^ (warehouse >>> 32));
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -57,9 +78,11 @@ public class StorageLocationTO implements TransferObject {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (warehouse != other.warehouse)
+			return false;
 		return true;
 	}
-	
+
 	
 
 }
