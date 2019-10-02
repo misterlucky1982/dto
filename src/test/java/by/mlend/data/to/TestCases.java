@@ -49,6 +49,7 @@ public class TestCases {
 		StorageLocationTO to1 = this.getStorageLocationTO(1,1,"Name 1");
 		StorageLocationTO to2 = this.getStorageLocationTO(2,1,"Name 2");
 		StorageLocationTO to3 = this.getStorageLocationTO(3,1,"Name 3");
+		to2.setDefault(true);
 		StorageLocationListTO listTO = new StorageLocationListTO();
 		listTO.add(to1);
 		listTO.add(to2);
@@ -197,5 +198,13 @@ public class TestCases {
 		assertEquals(to,to2);
 		assertEquals(login,to2.getLogin());
 		assertEquals(password,to2.getPassword());
+	}
+	
+	@Test
+	public void defaultStorageLocationTOTest(){
+		StorageLocationTO to1 = getStorageLocationTO(1,1,"name");
+		StorageLocationTO to2 = getStorageLocationTO(1,1,"name");
+		to1.setDefault(true);
+		assertNotEquals(Transfer.toTranferString(to1),Transfer.toTranferString(to2));
 	}
 }

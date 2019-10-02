@@ -182,16 +182,20 @@ public class Transfer {
 	}
 
 	private final static int ID_LENGTH_ST_LOC = 16;
-	private final static int ID_START_POSITION_ST_LOC = 0;
-	private final static int WAREHOUSE_START_ST = 16;
-	private final static int STORAGE_NAME_START = 32;
+	private final static int ID_START_POSITION_ST_LOC = 1;
+	private final static int WAREHOUSE_START_ST = 17;
+	private final static int STORAGE_NAME_START = 33;
+	private final static char DEFAULT_STORAGE_MARK = '<';
+	private final static char NONDEFAULT_STORAGE_MARK = '>';
+	private final static int ISDEFAULT_MARK_INDEX = 0;
 	
 	private static String writeStorageLocationTO(StorageLocationTO to) {
 		StringBuilder sb = new StringBuilder();
+		sb.append(to.isDefault()?DEFAULT_STORAGE_MARK:NONDEFAULT_STORAGE_MARK);
 		sb.append(Long.toHexString(to.getId()));
-		sb.append(spaces(ID_LENGTH_ST_LOC - sb.length()));
+		sb.append(spaces(ID_START_POSITION_ST_LOC+ID_LENGTH_ST_LOC - sb.length()));
 		sb.append(Long.toHexString(to.getWarehouse()));
-		sb.append(spaces(WAREHOUSE_LENGTH+ID_LENGTH_ST_LOC-sb.length()));
+		sb.append(spaces(ID_START_POSITION_ST_LOC+WAREHOUSE_LENGTH+ID_LENGTH_ST_LOC-sb.length()));
 		sb.append(byteString(to.getName()));
 		return sb.toString();
 	}
@@ -199,6 +203,7 @@ public class Transfer {
 	public static StorageLocationTO storageLocationTO(String line) throws TOException {
 		try {
 			StorageLocationTO to = new StorageLocationTO();
+			to.setDefault(line.charAt(ISDEFAULT_MARK_INDEX)==DEFAULT_STORAGE_MARK);
 			String temp = line.substring(ID_START_POSITION_ST_LOC, ID_LENGTH_ST_LOC);
 			to.setId(Long.decode("0x" + temp.trim()));
 			temp = line.substring(WAREHOUSE_START_ST, WAREHOUSE_START_ST+WAREHOUSE_LENGTH);

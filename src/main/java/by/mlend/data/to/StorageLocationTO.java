@@ -10,21 +10,48 @@ public class StorageLocationTO implements TransferObject {
 	private long id;
 	private long warehouse;
 	private String name;
+	private boolean isDefault;
 
+	/**
+	 * @return the id
+	 */
 	public long getId() {
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(long id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param name the name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the isDefault
+	 */
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	/**
+	 * @param isDefault the isDefault to set
+	 */
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	@Override
@@ -54,6 +81,7 @@ public class StorageLocationTO implements TransferObject {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + (isDefault ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + (int) (warehouse ^ (warehouse >>> 32));
 		return result;
@@ -73,6 +101,8 @@ public class StorageLocationTO implements TransferObject {
 		StorageLocationTO other = (StorageLocationTO) obj;
 		if (id != other.id)
 			return false;
+		if (isDefault != other.isDefault)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -82,7 +112,5 @@ public class StorageLocationTO implements TransferObject {
 			return false;
 		return true;
 	}
-
-	
 
 }
