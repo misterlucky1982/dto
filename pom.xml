@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>by.mlend</groupId>
   <artifactId>data-transfer-objects</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>data-transfer-objects</name>
   <url>http://maven.apache.org</url>
   
