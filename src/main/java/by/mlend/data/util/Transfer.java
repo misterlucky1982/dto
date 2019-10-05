@@ -1,5 +1,7 @@
 package by.mlend.data.util;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.Iterator;
 
@@ -393,7 +395,12 @@ public class Transfer {
 	}
 
 	private static String byteString(String line) {
-		byte[] bytes = line.getBytes();
+		byte[] bytes = null;
+		try {
+			bytes = line.getBytes("UTF8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		StringBuilder sb = new StringBuilder();
 		for (byte b : bytes)
 			sb.append(SPLITTER + Byte.toString(b));
@@ -409,7 +416,7 @@ public class Transfer {
 		byte[] bytes = new byte[strings.length];
 		for (int i = 0; i < bytes.length; i++)
 			bytes[i] = Byte.parseByte(strings[i]);
-		return new String(bytes);
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 	
 	private static final int LOGINLENGTHMARKERLENGTH = 8;
